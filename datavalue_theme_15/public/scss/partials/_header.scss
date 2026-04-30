@@ -184,8 +184,9 @@
                 background: url("/assets/datavalue_theme_15/images/us.svg") no-repeat center center;
               }
 
-              &.lang-ar {
-                background: url("/assets/datavalue_theme_15/images/sa.svg") no-repeat center center;
+              &.lang-od {
+                background: url("/assets/datavalue_theme_15/images/odisha-map.svg") no-repeat center center;
+                background-size: contain !important;
               }
             }
           }

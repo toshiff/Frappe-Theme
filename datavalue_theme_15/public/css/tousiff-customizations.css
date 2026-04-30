@@ -1,0 +1,201 @@
+/* =====================================================
+   Customization by Sheikh Tousiff
+   https://webuildsystems.netlify.app
+   ===================================================== */
+
+/* Hide linked field arrow (→) and plus (+) buttons in light/white theme */
+html[data-theme="light"] .link-btn,
+html[data-dv-theme="light"] .link-btn,
+body.dv-theme-light .link-btn {
+    display: none !important;
+}
+
+html[data-theme="light"] .link-field .link-btn-add,
+html[data-dv-theme="light"] .link-field .link-btn-add,
+body.dv-theme-light .link-field .link-btn-add {
+    display: none !important;
+}
+
+/* ============================================================
+   LINK FIELD: Hide arrow (→) and plus (+) buttons in LIGHT theme
+   In DARK theme: do NOT set display at all — let JS toggle() control it
+   ============================================================ */
+
+/* Light theme — hide both buttons completely */
+html[data-theme="light"] .link-btn,
+html[data-dv-theme="light"] .link-btn,
+body.dv-theme-light .link-btn,
+html[data-theme="light"] .link-btn-add,
+html[data-dv-theme="light"] .link-btn-add,
+body.dv-theme-light .link-btn-add {
+    display: none !important;
+}
+
+/* Dark theme — DO NOT set display here at all.
+   JS handles toggle(true/false) based on whether field has a value.
+   Only ensure our light-theme rule doesn't bleed into dark theme: */
+html[data-theme="dark"] .link-btn,
+html[data-dv-theme="dark"] .link-btn {
+    /* intentionally empty — JS controls visibility */
+}
+
+/* Word-wrap sidebar workspace/module labels */
+.side-menu .navigation-divider-module-name {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    word-break: break-word !important;
+    line-height: 1.3 !important;
+    max-width: 100% !important;
+}
+
+/* Odia language flag icon */
+.dv-lang-flag.lang-od {
+    background: url("/assets/datavalue_theme_15/images/od.png") no-repeat center center !important;
+    background-size: contain !important;
+}
+
+/* ============================================================
+   ICON STRIP - Center icons & word-wrap workspace labels
+   ============================================================ */
+
+.side-menu .side-menu-icons > ul > li {
+    margin: 8px 5px !important;
+    text-align: center !important;
+    width: auto !important;
+}
+
+.side-menu .side-menu-icons.menu-icons-with-label > ul > li > a {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    padding: 0 4px !important;
+}
+
+.side-menu .side-menu-icons.menu-icons-with-label > ul > li > a > div {
+    margin: 0 auto !important;
+    flex-shrink: 0 !important;
+}
+
+.side-menu .side-menu-icons.menu-icons-with-label > ul > li > a > span {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    word-break: break-word !important;
+    text-align: center !important;
+    width: 100% !important;
+    margin: 4px 0 0 0 !important;
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+    display: block !important;
+    word-spacing: 9999px;
+}
+.side-menu .modules-menu .modules-menu-list a {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    word-break: break-word !important;
+    height: auto !important;
+    line-height: 1.4 !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+}
+
+/* Hide Create new + Advanced Search in light theme - using attribute selector */
+html[data-theme="light"] .awesomplete ul[role=listbox] div[role=option]:has(span.link-option),
+html[data-dv-theme="light"] .awesomplete ul[role=listbox] div[role=option]:has(span.link-option),
+body.dv-theme-light .awesomplete ul[role=listbox] div[role=option]:has(span.link-option) {
+    display: none !important;
+}
+
+html[data-theme="dark"] .awesomplete ul[role=listbox] div[role=option]:has(span.link-option),
+html[data-dv-theme="dark"] .awesomplete ul[role=listbox] div[role=option]:has(span.link-option),
+body.dv-theme-dark .awesomplete ul[role=listbox] div[role=option]:has(span.link-option) {
+    display: block !important;
+}
+/* ============================================================
+   CHILD TABLE GEAR: Hide icon but preserve table layout
+   Use visibility:hidden + zero width instead of display:none
+   ============================================================ */
+
+html[data-theme="light"] .grid-heading-row .data-row .grid-static-col.d-flex.justify-content-center,
+html[data-dv-theme="light"] .grid-heading-row .data-row .grid-static-col.d-flex.justify-content-center,
+body.dv-theme-light .grid-heading-row .data-row .grid-static-col.d-flex.justify-content-center {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+html[data-theme="dark"] .grid-heading-row .data-row .grid-static-col.d-flex.justify-content-center,
+html[data-dv-theme="dark"] .grid-heading-row .data-row .grid-static-col.d-flex.justify-content-center,
+body.dv-theme-dark .grid-heading-row .data-row .grid-static-col.d-flex.justify-content-center {
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+/* ============================================================
+   LINK FIELD: Chevron ∨ indicator inside the input
+   Shows users it's a searchable/link field (light theme only)
+   ============================================================ */
+
+.frappe-control[data-fieldtype="Link"] .control-input-wrapper {
+    position: relative !important;
+}
+
+/* Chevron down indicator via pseudo-element */
+.frappe-control[data-fieldtype="Link"]:not(.read-only) .control-input-wrapper::after {
+    content: "" !important;
+    position: absolute !important;
+    right: 10px !important;
+    top: 50% !important;
+    transform: translateY(-50%) rotate(45deg) !important;
+    width: 6px !important;
+    height: 6px !important;
+    border-right: 2px solid #aaa !important;
+    border-bottom: 2px solid #aaa !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+}
+
+/* Shift input text so it doesn't go under the chevron */
+.frappe-control[data-fieldtype="Link"]:not(.read-only) .control-input-wrapper input.input-with-feedback {
+    padding-right: 26px !important;
+}
+
+/* Hide in dark theme - buttons are visible there */
+html[data-theme="dark"] .frappe-control[data-fieldtype="Link"] .control-input-wrapper::after,
+html[data-dv-theme="dark"] .frappe-control[data-fieldtype="Link"] .control-input-wrapper::after,
+body.dv-theme-dark .frappe-control[data-fieldtype="Link"] .control-input-wrapper::after {
+    display: none !important;
+}
+
+/* Hide in grid/child table rows - too cramped */
+.grid-body .frappe-control[data-fieldtype="Link"] .control-input-wrapper::after {
+    display: none !important;
+}
+/* ============================================================
+   Link field dropdown: No data found message + width fix
+   ============================================================ */
+
+/* Constrain dropdown width to match the input field */
+.awesomplete > ul[role=listbox] {
+    width: 100% !important;
+    min-width: unset !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* "No data found" message styling */
+.awesomplete ul[role=listbox] .dv-no-data-msg {
+    padding: 10px 12px !important;
+    color: #999 !important;
+    font-size: 13px !important;
+    text-align: center !important;
+    font-style: italic !important;
+    display: block !important;
+}
+
+.awesomplete ul[role=listbox] .dv-no-data-msg::before {
+    content: 'No data found';
+}
+
