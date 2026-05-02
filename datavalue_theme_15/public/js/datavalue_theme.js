@@ -256,9 +256,9 @@
                         label: 'EN',
                         flag: 'dv-lang-flag lang-en'
                     },
-                    AR: {
-                        label: 'AR',
-                        flag: 'dv-lang-flag lang-ar'
+                    OD: {
+                        label: 'OD',
+                        flag: 'dv-lang-flag lang-od'
                     }
                 },
                 active_lang: 'EN'
@@ -292,5 +292,151 @@
         });
 
     });
+    // Hide "Create new" and "Advanced Search" in link dropdowns for light theme only
+    $(document).on('shown.awesomplete awesomplete-open', function(e) {
+        if ($('html').attr('data-theme') !== 'dark') {
+            $(e.target).siblings('ul[role=listbox]').find('div[role=option]').each(function() {
+                if ($(this).find('span.link-option').length) {
+                    $(this).hide();
+                }
+            });
+        }
+        
+    });
 
+    $(document).on('awesomplete-open', '.frappe-control input', function() {
+        var $ul = $(this).siblings('ul[role=listbox]');
+        if ($('html').attr('data-theme') !== 'dark' && $('html').attr('data-dv-theme') !== 'dark') {
+            setTimeout(function() {
+                $ul.find('div[role=option]').each(function() {
+                    if ($(this).find('span.link-option').length) {
+                        $(this).hide();
+                    }
+                });
+            }, 50);
+        }
+        
+    });
+   function dvHideGridGear() {
+        var isDark = $('html').attr('data-theme') === 'dark' ||
+                    $('html').attr('data-dv-theme') === 'dark';
+        var $gear = $('.grid-heading-row .data-row .grid-static-col.d-flex.justify-content-center');
+        if (isDark) {
+            $gear.css({ 'visibility': 'visible', 'pointer-events': 'auto' });
+        } else {
+            $gear.css({ 'visibility': 'hidden', 'pointer-events': 'none' });
+        }
+    }
+
+    $(document).on('page-change form-load after-save', dvHideGridGear);
+
+    new MutationObserver(function(mutations) {
+        var hasGrid = mutations.some(function(m) {
+            return $(m.target).closest('.grid-heading-row').length > 0 ||
+                $(m.addedNodes).filter('.grid-heading-row').length > 0;
+        });
+        if (hasGrid) setTimeout(dvHideGridGear, 50);
+    }).observe(document.body, { childList: true, subtree: true });
+    
+    // Hide filter message, create new, advanced search in light theme
+    // Show single "No data found" if no real results remain
+    $(document).on('awesomplete-open', '.frappe-control input', function() {
+        var $input = $(this);
+        var $ul = $input.closest('.awesomplete').find('ul[role=listbox]');
+        var isDark = $('html').attr('data-theme') === 'dark' ||
+                    $('html').attr('data-dv-theme') === 'dark';
+
+        setTimeout(function() {
+            // Remove any previously added message first
+            $ul.find('.dv-no-data-msg').remove();
+
+            if (!isDark) {
+                // Hide filter description and create/search options
+                $ul.find('div[role=option]').each(function() {
+                    if ($(this).find('span.text-muted, span.link-option').length) {
+                        $(this).hide();
+                    }
+                });
+            }
+
+            // Check visible real results
+            var visibleItems = $ul.find('div[role=option]:visible').length;
+
+            if (visibleItems === 0) {
+                // Remove again before adding (handles double-fire race)
+                $ul.find('.dv-no-data-msg').remove();
+                $ul.append('<div class="dv-no-data-msg"></div>');
+            }
+        }, 80);
+    });
+
+    $(document).on('awesomplete-close', '.frappe-control input', function() {
+        $(this).closest('.awesomplete').find('ul[role=listbox] .dv-no-data-msg').remove();
+    });
+    // ============================================================
+    // FIX: Suppress "Missing Fields" dialog when triggered by
+    // attachment upload (not by user clicking Save)
+    // ============================================================
+    frappe.after_ajax(function() {
+
+        var _dv_user_save = false;
+
+        // Track user-initiated saves
+        $(document).on('click', '.page-actions .btn-primary', function() {
+            _dv_user_save = true;
+            setTimeout(function() { _dv_user_save = false; }, 3000);
+        });
+
+        $(document).on('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                _dv_user_save = true;
+                setTimeout(function() { _dv_user_save = false; }, 3000);
+            }
+        });
+
+        $(document).on('page-change after-save', function() {
+            _dv_user_save = false;
+        });
+
+        // Patch frappe.ui.form.save to completely block non-user-initiated saves
+        var _patch_save = function() {
+            if (!frappe || !frappe.ui || !frappe.ui.form || !frappe.ui.form.save) {
+                setTimeout(_patch_save, 500);
+                return;
+            }
+
+            var _orig_form_save = frappe.ui.form.save;
+
+            frappe.ui.form.save = function(frm, action, callback, btn) {
+                if (!_dv_user_save) {
+                    // Not user-initiated — block the save completely
+                    // The file value is already set in frm.doc by frappe
+                    // Just mark the form as dirty so user knows to save manually
+                    if (frm) {
+                        frm.dirty();
+                    }
+                    // Call callback if provided so UI doesn't get stuck
+                    if (typeof callback === 'function') {
+                        callback();
+                    }
+                    return;
+                }
+                // User-initiated save — proceed normally
+                return _orig_form_save.apply(this, arguments);
+            };
+        };
+
+        _patch_save();
+
+        // Suppress Missing Fields dialog as backup
+        var _orig_msgprint = frappe.msgprint;
+        frappe.msgprint = function(opts) {
+            var title = (opts && typeof opts === 'object') ? (opts.title || '') : '';
+            if (!_dv_user_save && (title === 'Missing Fields' || title === __('Missing Fields'))) {
+                return;
+            }
+            return _orig_msgprint.apply(frappe, arguments);
+        };
+
+    });
 })(jQuery);

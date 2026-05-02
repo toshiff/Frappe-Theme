@@ -22,7 +22,8 @@ app_include_css = [
     "/assets/datavalue_theme_15/plugins/tooltip/tooltip-theme-twipsy.css",
     "/assets/datavalue_theme_15/plugins/flat-icons/flaticon.css",
     "/assets/datavalue_theme_15/plugins/simple-calendar/simple-calendar.css",
-    "datavalue_theme.bundle.css"
+    "datavalue_theme.bundle.css",
+    "/assets/datavalue_theme_15/css/tousiff-customizations.css"
 ]
 
 app_include_js = [
@@ -32,7 +33,8 @@ app_include_js = [
     "/assets/datavalue_theme_15/plugins/tooltip/tooltip.js",
     "/assets/datavalue_theme_15/plugins/jquery-fullscreen/jquery.fullscreen.min.js?ver=1",
     "/assets/datavalue_theme_15/plugins/simple-calendar/jquery.simple-calendar.js",
-    "/assets/datavalue_theme_15/js/datavalue_theme.app.min.js"
+    "/assets/datavalue_theme_15/js/datavalue_theme.app.min.js",
+    "/assets/datavalue_theme_15/js/footer_override.js"
     # "datavalue_theme.bundle.js"
 ]
 

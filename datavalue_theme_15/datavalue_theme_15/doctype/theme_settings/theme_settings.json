@@ -231,7 +231,7 @@
  ],
  "issingle": 1,
  "links": [],
- "modified": "2024-05-30 15:53:15.474962",
+ "modified": "2026-04-27 15:54:58.498585",
  "modified_by": "Administrator",
  "module": "Datavalue Theme 15",
  "name": "Theme Settings",
@@ -246,8 +246,20 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1,
+   "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
