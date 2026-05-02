@@ -408,20 +408,14 @@
             var _orig_form_save = frappe.ui.form.save;
 
             frappe.ui.form.save = function(frm, action, callback, btn) {
-                if (!_dv_user_save) {
-                    // Not user-initiated — block the save completely
-                    // The file value is already set in frm.doc by frappe
-                    // Just mark the form as dirty so user knows to save manually
-                    if (frm) {
-                        frm.dirty();
-                    }
-                    // Call callback if provided so UI doesn't get stuck
-                    if (typeof callback === 'function') {
-                        callback();
-                    }
+                // Only block 'Update' action saves that are not user-initiated
+                // 'Update' is used by attach field after upload
+                // User save uses 'Save', 'Submit', 'Amend' etc.
+                if (!_dv_user_save && action === 'Update') {
+                    if (frm) frm.dirty();
+                    if (typeof callback === 'function') callback();
                     return;
                 }
-                // User-initiated save — proceed normally
                 return _orig_form_save.apply(this, arguments);
             };
         };
