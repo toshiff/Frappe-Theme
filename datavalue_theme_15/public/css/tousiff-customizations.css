@@ -255,3 +255,62 @@ body.dv-theme-dark .frappe-control[data-fieldtype="Link"] .control-input-wrapper
 .btn-toggle-sidebar {
     display: none !important;
 }
+/* ============================================================
+   LINK FIELD: Full width input + dropdown chevron inside field
+   Makes Link fields look identical to Select fields
+   ============================================================ */
+
+/* Make input full width — remove gap left for external link-btn */
+.frappe-control[data-fieldtype="Link"] .awesomplete > input,
+.frappe-control[data-fieldtype="Link"] .awesomplete input {
+    width: 100% !important;
+    padding-right: 28px !important; /* room for chevron inside */
+}
+
+/* Hide the external open-link button (the arrow that sits outside) */
+.frappe-control[data-fieldtype="Link"] .link-btn,
+.frappe-control[data-fieldtype="Link"] .action-btn,
+.frappe-control[data-fieldtype="Link"] .btn-open,
+.frappe-control[data-fieldtype="Link"] .link-btn-add {
+    display: none !important;
+}
+
+/* Wrap the awesomplete in a relative container so we can place chevron */
+.frappe-control[data-fieldtype="Link"] .control-input {
+    position: relative !important;
+}
+
+/* Chevron icon inside the field — same as select field */
+.frappe-control[data-fieldtype="Link"] .control-input::after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--text-muted);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Read-only / disabled state — dim the chevron */
+.frappe-control[data-fieldtype="Link"].read-only .control-input::after,
+.frappe-control[data-fieldtype="Link"] input:disabled ~ *::after {
+    opacity: 0.3;
+}
+
+/* Ensure awesomplete wrapper doesn't clip the chevron */
+.frappe-control[data-fieldtype="Link"] .awesomplete {
+    width: 100% !important;
+    display: block !important;
+}
+
+/* Match select field border-radius and height exactly */
+.frappe-control[data-fieldtype="Link"] .awesomplete input.form-control {
+    border-radius: var(--border-radius) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
