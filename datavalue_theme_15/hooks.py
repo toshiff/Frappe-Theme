@@ -34,7 +34,8 @@ app_include_js = [
     "/assets/datavalue_theme_15/plugins/jquery-fullscreen/jquery.fullscreen.min.js?ver=1",
     "/assets/datavalue_theme_15/plugins/simple-calendar/jquery.simple-calendar.js",
     "/assets/datavalue_theme_15/js/datavalue_theme.app.min.js",
-    "/assets/datavalue_theme_15/js/footer_override.js"
+    "/assets/datavalue_theme_15/js/footer_override.js",
+    "/assets/datavalue_theme_15/js/tousiff-customizations.js",
     # "datavalue_theme.bundle.js"
 ]
 
