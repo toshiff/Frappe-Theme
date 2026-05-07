@@ -256,8 +256,8 @@
                         label: 'EN',
                         flag: 'dv-lang-flag lang-en'
                     },
-                    OD: {
-                        label: 'OD',
+                    OR: {                          // Change OD → OR
+                        label: 'OD',               // Display label stays "OD"  
                         flag: 'dv-lang-flag lang-od'
                     }
                 },
